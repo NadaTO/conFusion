@@ -4,6 +4,12 @@
 @import '../node_modules/font-awesome/scss/font-awesome';
 // some basic resets
 
+$lt-grat: #ddd;
+$background-dark: #512DAB;
+$background-light: #9575CD;
+$background-pale: #D1C4E9;
+$accent-color: #FFC107;
+
 body {
   padding: 0;
   margin: 0;
@@ -13,4 +19,16 @@ body {
 .container {
     margin: 20px;
     display:flex;
+}
+
+.background-primary {
+    background-color: $background-dark!important
+}
+
+.background-accent {
+    background-color: $accent-color!important
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
 }
