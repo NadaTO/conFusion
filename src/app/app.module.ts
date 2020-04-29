@@ -15,7 +15,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -50,6 +53,8 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     MatToolbarModule,
     FlexLayoutModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     MatListModule,
     MatGridListModule,
     MatCardModule,
@@ -58,7 +63,8 @@ import { LoginComponent } from './login/login.component';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    FormsModule 
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [DishService,
           PromotionService,
