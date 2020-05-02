@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Promotion } from '../shared/promotion';
 import { PROMOTIONS} from '../shared/promotions';
-import { observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Injectable({
@@ -21,4 +21,5 @@ export class PromotionService {
 
   getFeaturedPromotion(): Observable<Promotion> {
     return   of(PROMOTIONS.filter((promotion) => promotion.featured)[0]).pipe(delay(2000));
+}
 }
