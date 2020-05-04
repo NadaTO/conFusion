@@ -2,18 +2,35 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Feedback, ContactType } from '../shared/feedback';
+import { FeedbackService } from '../services/feedback.service';
+import { visibility ,flyInOut, expand} from '../animations/app.animation';
 
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  // tslint:disable-next-line:use-host-property-decorator
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+  },
+  animations: [
+    flyInOut(),
+    expand(),
+    visibility()
+  ]
+
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  errMess: string;
+  visibility = 'hidden';
+  response = false;
+  submitted = false;
   @ViewChild('fform') feedbackFormDirective;
 
   formErrors = {
@@ -44,7 +61,7 @@ validationMessages = {
   },
 };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private feedbackService : FeedbackService) {
     this.createForm();
   }
 
@@ -59,7 +76,7 @@ validationMessages = {
         email: ['', [Validators.required, Validators.email] ],
         agree: false,
         contacttype: 'None',
-        message: ''
+        message: ['', [Validators.required, Validators.minLength(2)]],
       });
       this.feedbackForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
@@ -89,7 +106,16 @@ validationMessages = {
 }
 
   onSubmit() {
+    this.submitted=true;
     this.feedback = this.feedbackForm.value;
+    this.feedbackService.submitFeedback(this.feedback) .
+    subscribe(feedback=> { this.feedback = feedback; this.submitted=false;  this.response=true;} ,
+      setTimeout(() => {
+                      this.response=false;
+                  }, 5000),
+     errmess => { this.feedback = null; this.errMess = <any>errmess; });;
+
+    console.log(this.response);
     console.log(this.feedback);
     this.feedbackForm.reset({
       firstname: '',
@@ -98,8 +124,17 @@ validationMessages = {
       email: '',
       agree: false,
       contacttype: 'None',
-      message:''
+      message: ''
     });
+  //  this.feedbackForm.reset({
+    //  firstname: '',
+    //  lastname: '',
+  //    telnum: '',
+  //    email: '',
+  //    agree: false,
+  //    contacttype: 'None',
+  ///    message:''
+//    });
     this.feedbackFormDirective.resetForm();
   }
 
